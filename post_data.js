@@ -32,19 +32,46 @@ function showvalue(storedData){
    const li= document.createElement('li');
    const liText=document.createTextNode(`Name : ${storedData.NAME} Email : ${storedData.EMAIL} Phone : ${storedData.NUMBER}`);
    li.appendChild(liText);
+  //delete button created
+   const dltbtn=document.createElement('button');
+   dltbtn.appendChild(document.createTextNode("Delete"));
+      li.appendChild(dltbtn);
+    //edit button created
+    const editbtn=document.createElement('button');
+    editbtn.appendChild(document.createTextNode("Edit"));
+    li.appendChild(editbtn);
+    
    lists.appendChild(li);
 
 }
+//this is a one type of method to call the value from the server
+// async function fetchServerValue() {
+//     try {
+//       const response = await fetch('https://crudcrud.com/api/b37a979549474bdf9fe7dae2771a7566/AppoinmentBooking');
+//      const data = await response.json(); // Assuming the response format is JSON
+//       data.forEach((e)=>{
+//         showvalue(e)
+//      })
+//     } catch (error) {
+//       console.error('Error fetching server value:', error);
+//     }
+//   }
+// fetchServerValue();
 
-async function fetchServerValue() {
-    try {
-      const response = await fetch('https://crudcrud.com/api/b37a979549474bdf9fe7dae2771a7566/AppoinmentBooking');
-     const data = await response.json(); // Assuming the response format is JSON
-      data.forEach((e)=>{
-        showvalue(e)
-     })
-    } catch (error) {
-      console.error('Error fetching server value:', error);
-    }
-  }
-fetchServerValue();
+
+
+//the below code also fetching the data from server and display data
+window.addEventListener("DOMContentLoaded",()=>{
+  axios.get('https://crudcrud.com/api/b37a979549474bdf9fe7dae2771a7566/AppoinmentBooking')
+      .then(res=>{
+        const data=res.data;
+        data.forEach((e)=>{
+          showvalue(e);
+
+        })
+      })
+      .catch(err=>{
+        console.log(err)
+      })
+
+})
