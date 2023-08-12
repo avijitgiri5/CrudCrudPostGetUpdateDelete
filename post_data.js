@@ -16,8 +16,7 @@ function onsubmit(e){
            
                   
                   const value = response.data; 
-                  let myobj_serialize=JSON.stringify(value);
-                 localStorage.setItem(value.EMAIL,myobj_serialize);
+                  
                 showvalue(value); // Display the value on the webpage
                 
             //showvalue(responce.data)
@@ -28,12 +27,24 @@ function onsubmit(e){
             console.log(err)
         })
 }
-function showvalue(data){
-    const storedData = JSON.parse(localStorage.getItem(data.EMAIL));
-    //console.log(storedData)
+function showvalue(storedData){
+   
    const li= document.createElement('li');
    const liText=document.createTextNode(`Name : ${storedData.NAME} Email : ${storedData.EMAIL} Phone : ${storedData.NUMBER}`);
    li.appendChild(liText);
    lists.appendChild(li);
 
 }
+
+async function fetchServerValue() {
+    try {
+      const response = await fetch('https://crudcrud.com/api/b37a979549474bdf9fe7dae2771a7566/AppoinmentBooking');
+     const data = await response.json(); // Assuming the response format is JSON
+      data.forEach((e)=>{
+        showvalue(e)
+     })
+    } catch (error) {
+      console.error('Error fetching server value:', error);
+    }
+  }
+fetchServerValue();
