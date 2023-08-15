@@ -11,7 +11,7 @@ function onsubmit(e) {
     EMAIL: email.value,
     NUMBER: number.value
   }
-  axios.post('https://crudcrud.com/api/897144fcede2493cb2f108a425945f9c/AppoinmentBooking', myyobj)
+  axios.post('https://crudcrud.com/api/992bb0114f984d889d77302f7dee8bf9/AppoinmentBooking', myyobj)
     .then((response) => {
 
 
@@ -32,6 +32,7 @@ function showvalue(storedData) {
   const li = document.createElement('li');
   const liText = document.createTextNode(`Name : ${storedData.NAME} Email : ${storedData.EMAIL} Phone : ${storedData.NUMBER}`);
   li.appendChild(liText);
+
   //delete button created
   const dltbtn = document.createElement('button');
   dltbtn.appendChild(document.createTextNode("Delete"));
@@ -42,17 +43,31 @@ function showvalue(storedData) {
     //console.log(storedData._id)
     deleteUser(storedData._id);
     lists.removeChild(li);
-
-
   }
 
   //edit button created
-  // const editbtn = document.createElement('button');
-  // editbtn.appendChild(document.createTextNode("Edit"));
-  // li.appendChild(editbtn);
+  const editbtn = document.createElement('button');
+  editbtn.appendChild(document.createTextNode("Edit"));
+  li.appendChild(editbtn);
 
-   lists.appendChild(li);
+  editbtn.onclick = () => {
+    name.value = storedData.NAME;
+    email.value = storedData.EMAIL;
+    number.value = storedData.NUMBER;
+    let ID = storedData._id;
+    axios.delete(`https://crudcrud.com/api/992bb0114f984d889d77302f7dee8bf9/AppoinmentBooking/${ID}`)
+    .then(res => {
+      console.log(res);
 
+    })
+    .catch(err => console.log(err))
+    lists.removeChild(li);
+  //console.log(id)
+}
+lists.appendChild(li);
+name.value="";
+email.value="";
+number.value=""
 }
 //this is a one type of method to call the value from the server
 // async function fetchServerValue() {
@@ -72,7 +87,7 @@ function showvalue(storedData) {
 
 //the below code also fetching the data from server and display data
 window.addEventListener("DOMContentLoaded", () => {
-  axios.get('https://crudcrud.com/api/897144fcede2493cb2f108a425945f9c/AppoinmentBooking')
+  axios.get('https://crudcrud.com/api/992bb0114f984d889d77302f7dee8bf9/AppoinmentBooking')
     .then(res => {
       const data = res.data;
       data.forEach((e) => {
@@ -87,10 +102,14 @@ window.addEventListener("DOMContentLoaded", () => {
 })
 
 function deleteUser(ID) {
-  axios.delete(`https://crudcrud.com/api/897144fcede2493cb2f108a425945f9c/AppoinmentBooking/${ID}`)
+  axios.delete(`https://crudcrud.com/api/992bb0114f984d889d77302f7dee8bf9/AppoinmentBooking/${ID}`)
     .then(res => {
       alert('Delete Success')
 
     })
     .catch(err => console.log(err))
 }
+
+// setInterval(()=>{
+//   showvalue();
+// },1000)
